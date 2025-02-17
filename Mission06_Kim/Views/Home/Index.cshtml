@@ -1,8 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Mission06_LastName.Models.Movie>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Movie Collection</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Director</th>
+            <th>Year</th>
+            <th>Rating</th>
+            <th>Edited</th>
+            <th>Lent To</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Category</td>
+                <td>@movie.Director</td>
+                <td>@movie.Year</td>
+                <td>@movie.Rating</td>
+                <td>@(movie.Edited == true ? "Yes" : "No")</td>
+                <td>@movie.LentTo</td>
+                <td>@movie.Notes</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Movies/Create" class="btn btn-primary">Add New Movie</a>
