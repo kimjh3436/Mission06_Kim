@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Confirmation";
+}
+
+@if (ViewBag.MovieTitle != null)
+{
+        <h1>The movie "@ViewBag.MovieTitle" has been submitted.</h1>
+}
+else
+{
+        <h1>No movie title was provided.</h1>
+}
