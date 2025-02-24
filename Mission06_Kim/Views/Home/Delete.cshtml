@@ -1,0 +1,10 @@
+﻿@model Mission06_Kim.Models.Movie
+
+<h2>Delete Movie</h2>
+<p>Are you sure you want to delete "@Model.Title"?</p>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="MovieId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+

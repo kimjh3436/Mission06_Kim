@@ -1,112 +1,48 @@
-﻿@model Mission06_Kim.Models.Movie  
+﻿@model Mission06_Kim.Models.MovieViewModel
 
 @{
-    ViewData["Title"] = "Add Movie";  
+    ViewData["Title"] = "Add a New Movie";
 }
 
-<h1>Add a New Movie</h1>
+<h2 class="text-center mt-4">Add a New Movie</h2>
 
-<!-- Display existing movies if they exist -->
-@if (ViewBag.Movies != null && ViewBag.Movies.Count > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Year</th>
-                <th>Director</th>
-                <th>Rating</th>
-                <th>Edited</th>
-                <th>LentTo</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var movie in ViewBag.Movies) // Loops through each movie in ViewBag.Movies
-            {
-                <tr>
-                    <td>@movie.Title</td>
-                    <td>@movie.Category</td>
-                    <td>@movie.Year</td>
-                    <td>@movie.Director</td>
-                    <td>@movie.Rating</td>
-                    <td>@(movie.Edited == true ? "Yes" : (movie.Edited == false ? "No" : "N/A"))</td> <!-- Handles nullable bool -->
-                    <td>@movie.LentTo</td>
-                    <td>@movie.Notes</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No movies found in the database.</p> <!-- Displays if no movies are present -->
-}
-
-<h2>Add a Movie</h2>
-
-<!-- Form to add a new movie -->
 <form asp-action="AddMovie" method="post">
-    <!-- Movie Title Input -->
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" required /> <!-- Required field -->
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" asp-for="Movie.Title" class="form-control" required />
     </div>
-
-    <!-- Movie Category Input -->
-    <div class="form-group">
-        <label asp-for="Category"></label>
-        <input asp-for="Category" class="form-control" required />
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <input type="text" asp-for="Movie.Category" class="form-control" required />
     </div>
-
-    <!-- Release Year Input -->
-    <div class="form-group">
-        <label asp-for="Year"></label>
-        <input asp-for="Year" class="form-control" required />
+    <div class="mb-3">
+        <label class="form-label">Director</label>
+        <input type="text" asp-for="Movie.Director" class="form-control" required />
     </div>
-
-    <!-- Director Name Input -->
-    <div class="form-group">
-        <label asp-for="Director"></label>
-        <input asp-for="Director" class="form-control" required />
+    <div class="mb-3">
+        <label class="form-label">Year</label>
+        <input type="number" asp-for="Movie.Year" class="form-control" min="1888" required />
     </div>
-
-    <!-- Movie Rating Dropdown -->
-    <div class="form-group">
-        <label asp-for="Rating"></label>
-        <select asp-for="Rating" class="form-control" required> <!-- Dropdown for movie rating -->
-            <option>G</option>
-            <option>PG</option>
-            <option>PG-13</option>
-            <option>R</option>
+    <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <select asp-for="Movie.Rating" class="form-control">
+            <option value="G">G</option>
+            <option value="PG">PG</option>
+            <option value="PG-13">PG-13</option>
+            <option value="R">R</option>
         </select>
     </div>
-
-    <!-- Edited Dropdown (Yes/No) -->
-    <div class="form-group">
-        <label asp-for="Edited">Edited</label>
-        <select asp-for="Edited" class="form-control"> <!-- Stores as true/false -->
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
+    <div class="mb-3">
+        <label class="form-label">Edited</label>
+        <input type="checkbox" asp-for="Movie.Edited" />
     </div>
-
-    <!-- Lent To Input -->
-    <div class="form-group">
-        <label asp-for="LentTo">Lent to</label>
-        <input type="text" asp-for="LentTo" class="form-control" />
+    <div class="mb-3">
+        <label class="form-label">Copied to Plex</label>
+        <input type="checkbox" asp-for="Movie.CopiedToPlex" />
     </div>
-
-    <!-- Notes Input (Max 25 Characters) -->
-    <div class="form-group">
-        <label asp-for="Notes">Notes</label>
-        <input type="text" asp-for="Notes" class="form-control" maxlength="25" />
+    <div class="mb-3">
+        <label class="form-label">Notes (Max 25 characters)</label>
+        <input type="text" asp-for="Movie.Notes" class="form-control" maxlength="25" />
     </div>
-
-    <!-- Submit Button -->
     <button type="submit" class="btn btn-primary">Add Movie</button>
-</form> 
-
-
-
+</form>

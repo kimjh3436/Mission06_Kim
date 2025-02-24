@@ -1,32 +1,39 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mission06_Kim.Models
 {
-    public class Movie // creating a movie classing. setting the values, data types and if null or not null
+    public class Movie
     {
         [Key]
         public int MovieId { get; set; }
 
         [Required]
+        public int CategoryId { get; set; }  // ✅ Foreign Key to Categories table
+
+        [ForeignKey("CategoryId")]
+        public Category? Category { get; set; }  // ✅ Navigation property
+
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
         [Required]
-        public string Category { get; set; }
-
-        [Required]
-        public string Director { get; set; }
-
-        [Required]
+        [Range(1888, int.MaxValue, ErrorMessage = "Year must be 1888 or later")]
         public int Year { get; set; }
 
+        [Required(ErrorMessage = "Director is required")]
+        public string Director { get; set; }
+
+        public string? Rating { get; set; }  // Nullable
+
         [Required]
-        public string Rating { get; set; }  // Dropdown (G, PG, PG-13, R)
+        public bool Edited { get; set; }  // Boolean (0/1)
 
-        public bool? Edited { get; set; }   // Yes/No (true/false)
+        public string? LentTo { get; set; }  // Nullable
 
-        public string? LentTo { get; set; } // Optional
+        [Required]
+        public bool CopiedToPlex { get; set; }  // Boolean (0/1)
 
-        [MaxLength(25)]
-        public string? Notes { get; set; }  // Limited to 25 characters
+        public string? Notes { get; set; }   // Nullable
     }
 }

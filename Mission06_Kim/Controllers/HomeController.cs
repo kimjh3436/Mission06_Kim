@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mission06_Kim.Models;
 using System.Linq;
@@ -7,7 +7,6 @@ namespace Mission06_Kim.Controllers
 {
     public class HomeController : Controller
     {
-        // Injects MovieContext to interact with the database
         private readonly MovieContext _context;
 
         public HomeController(MovieContext context)
@@ -15,51 +14,70 @@ namespace Mission06_Kim.Controllers
             _context = context;
         }
 
-        // Returns the Index (Home) page
+        // Display all movies with category names
         public IActionResult Index()
         {
-            return View();
+            var movies = _context.Movies
+                .Include(m => m.Category)  // ✅ Join with Categories table
+                .ToList();
+            return View(movies);
         }
 
-        // Returns the "Get to Know Joel" page
+        // Get to Know Joel Page
         public IActionResult GetToKnowJoel()
         {
             return View();
         }
 
-        //  Handles GET request: Displays the AddMovie form and the list of movies
+
+        // Load MovieCollection form
+        public IActionResult MovieCollection()
+        {
+            var movies = _context.Movies.Include(m => m.Category).ToList();
+
+            var viewModel = new MovieViewModel
+            {
+                Movie = new Movie(),  // New movie form
+                Movies = movies       // List of existing movies
+            };
+
+            return View(viewModel);
+        }
+
         [HttpGet]
         public IActionResult AddMovie()
         {
-            ViewBag.Movies = _context.Movies.ToList(); // Fetch all movies from the database
-            return View(new Movie()); // Pass an empty Movie object to the form
+            var movies = _context.Movies.Include(m => m.Category).ToList();
+
+            var viewModel = new MovieViewModel
+            {
+                Movie = new Movie(),  // New movie form
+                Movies = movies       // List of existing movies
+            };
+
+            return View(viewModel);
         }
 
-        // Handles POST request: Saves the submitted movie to the database
         [HttpPost]
-        public IActionResult AddMovie(Movie movie)
+        public IActionResult AddMovie(MovieViewModel viewModel)
         {
-            if (ModelState.IsValid) // Ensures all required fields are correctly filled
+            if (ModelState.IsValid) // ✅ Ensure form validation
             {
-                _context.Movies.Add(movie); // Adds new movie entry to the database
-                _context.SaveChanges(); // Commits changes to the database
-                return RedirectToAction("Confirmation", new { title = movie.Title }); // Redirects to confirmation page with movie title
+                _context.Movies.Add(viewModel.Movie);
+                _context.SaveChanges();
+                return RedirectToAction("AddMovie"); // ✅ Redirect after adding
             }
 
-            ViewBag.Movies = _context.Movies.ToList(); // Reloads movies if form submission fails
-            return View(movie);
+            // Reload movies to pass to the view
+            viewModel.Movies = _context.Movies.Include(m => m.Category).ToList();
+            return View(viewModel);
         }
 
-        // Handles the Confirmation Page, displaying the submitted movie title
-        public IActionResult Confirmation(string title)
-        {
-            // If the title is null or empty, provide a default message to prevent errors
-            ViewBag.MovieTitle = string.IsNullOrEmpty(title) ? "Unknown" : title;
-
-            return View(); // Returns the Confirmation view
-        }
     }
 }
+
+
+
 
 
 

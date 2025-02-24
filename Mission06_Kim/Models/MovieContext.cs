@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mission06_Kim.Models;
 
 namespace Mission06_Kim.Models
 {
@@ -8,6 +7,7 @@ namespace Mission06_Kim.Models
         public MovieContext(DbContextOptions<MovieContext> options) : base(options) { }
 
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Category> Categories { get; set; }  // ✅ Add Categories table
     }
 }
 

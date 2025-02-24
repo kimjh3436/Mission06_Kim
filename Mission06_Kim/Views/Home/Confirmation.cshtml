@@ -1,12 +1,7 @@
 ﻿@{
-    ViewData["Title"] = "Confirmation";
+	ViewData["Title"] = "Confirmation";
 }
+@model Mission06_Kim.Models.Movie
 
-@if (ViewBag.MovieTitle != null)
-{
-        <h1>The movie "@ViewBag.MovieTitle" has been submitted.</h1>
-}
-else
-{
-        <h1>No movie title was provided.</h1>
-}
+<!--Confirmation page, displays the title of the movie to let the user know which one they have just submitted.-->
+<h1>Congrats! The movie @Model.Title has been submitted.</h1>
