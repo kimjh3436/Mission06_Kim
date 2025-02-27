@@ -8,27 +8,27 @@ builder.Services.AddControllersWithViews();
 
 // Configure database connection using SQLite
 builder.Services.AddDbContext<MovieContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MovieDbConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Configure the HTTP request pipeline for different environments
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.UseExceptionHandler("/Home/Error"); // Redirect errors to the error page
+    app.UseHsts(); // Enforce HTTPS in production
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseHttpsRedirection(); // Redirect HTTP to HTTPS
+app.UseStaticFiles(); // Serve static files like CSS, JavaScript, and images
 
-app.UseRouting();
+app.UseRouting(); // Enable request routing
 
-app.UseAuthorization();
+app.UseAuthorization(); // Enable authentication and authorization
 
+// Define default route mapping for controllers
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
-app.Run();
+app.Run(); // Start the application

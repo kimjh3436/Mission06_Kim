@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Submit Movies";
+}
+
+@model Mission06_Kim.Models.Movie
+
+<!-- Movie submission form for adding or editing movie records -->
+<h1 class="text-center">Movie Submission</h1>
+
+<div class="d-flex justify-content-center align-items-center">
+    <form method="post" class="d-flex flex-column justify-content-between w-50 text-start gap-3">
+        <!-- Hidden field to store Movie ID for editing purposes -->
+        <input type="hidden" asp-for="MovieId" />
+
+        <!-- Movie Category Selection -->
+        <div class="d-flex flex-column">
+            <label asp-for="CategoryId">Movie Category</label>
+            <select asp-for="CategoryId" required>
+                <option value="">Select a Category</option>
+                @foreach (var c in ViewBag.Categories)
+                {
+                    <option value="@c.CategoryId">@c.CategoryName</option>
+                }
+            </select>
+        </div>
+
+        <!-- Movie Title Input -->
+        <div class="d-flex flex-column">
+            <label asp-for="Title">Title</label>
+            <input type="text" asp-for="Title" required />
+        </div>
+
+        <!-- Movie Release Year -->
+        <div class="d-flex flex-column">
+            <label asp-for="Year">Year</label>
+            <input type="number" asp-for="Year" min="1888" max="2025" required />
+        </div>
+
+        <!-- Director Name Input -->
+        <div class="d-flex flex-column">
+            <label asp-for="Director">Director</label>
+            <input type="text" asp-for="Director" required />
+        </div>
+
+        <!-- Movie Rating Selection -->
+        <div class="d-flex flex-column">
+            <label asp-for="Rating">Rating</label>
+            <select asp-for="Rating" required>
+                <option>G</option>
+                <option>PG</option>
+                <option>PG-13</option>
+                <option>R</option>
+            </select>
+        </div>
+
+        <!-- Edited Status Selection -->
+        <div class="d-flex flex-column">
+            <label asp-for="Edited">Edited?</label>
+            <select asp-for="Edited">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <!-- Lent To Input -->
+        <div class="d-flex flex-column">
+            <label asp-for="LentTo">Lent To</label>
+            <input type="text" asp-for="LentTo" />
+        </div>
+
+        <!-- Notes Input with Character Limit -->
+        <div class="d-flex flex-column">
+            <label asp-for="Notes">Notes (Max 25 characters)</label>
+            <input type="text" asp-for="Notes" maxlength="25" />
+        </div>
+
+        <!-- Copied to Plex Status Selection -->
+        <div class="d-flex flex-column">
+            <label asp-for="CopiedToPlex">Copied to Plex?</label>
+            <select asp-for="CopiedToPlex">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <!-- Validation Summary -->
+    <div asp-validation-summary="All"></div>
+</div>

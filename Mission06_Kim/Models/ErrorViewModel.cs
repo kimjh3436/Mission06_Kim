@@ -1,4 +1,4 @@
-namespace WebApplication1.Models
+namespace Mission06_Kim.Models
 {
     public class ErrorViewModel
     {

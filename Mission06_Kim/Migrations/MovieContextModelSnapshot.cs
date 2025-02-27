@@ -40,14 +40,13 @@ namespace Mission06_Kim.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("CopiedToPlex")
+                    b.Property<int>("CopiedToPlex")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Edited")
+                    b.Property<int>("Edited")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LentTo")
@@ -76,12 +75,17 @@ namespace Mission06_Kim.Migrations
             modelBuilder.Entity("Mission06_Kim.Models.Movie", b =>
                 {
                     b.HasOne("Mission06_Kim.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Mission06_Kim.Models.Category", b =>
+                {
+                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
